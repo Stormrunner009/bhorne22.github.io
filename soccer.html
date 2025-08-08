@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Love for Soccer (From Scratch)</title>
+    
+    <link href="css/scratch-styles.css" rel="stylesheet" />
+    <style>
+        .centered-content {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body id="top">
+
+    <div class="header">
+        <h1>My Love for Soccer</h1>
+        <p>A page built from scratch to show my passion for the beautiful game.</p>
+        <p>
+            <a href="index.html">Back to Professional Site</a>
+            <span class="nav-divider">|</span>
+            <a href="#video-section">Jump to Video</a>
+            <span class="nav-divider">|</span>
+            <a href="BarçaTrivia.html">Test Your Barça Knowledege</a>
+        </p>
+    </div>
+
+    <div class="main-content">
+
+        <h2>My Soccer Career</h2>
+        <p>I played competitively until sophomore year. I played as a center back and have been moving more towards a midfield position, working on my footwork, dribbling, and passing. My strengths are my work ethic, my fight for the ball, my positioning, and my ability to create opportunities.</p>
+        
+        <hr> <h2>My Favorite Team and Players</h2>
+        <ol>
+            <li>Favorite Team: FC Barcelona
+                <ul>
+                    <li>Why: Their "tiki-taka" style and focus on youth talent.</li>
+                    <li>Current Coach: Hansi Flick</li>
+                </ul>
+            </li>
+            <li>Favorite Players
+                <ul>
+                    <li>Pedri</li>
+                    <li>Gavi</li>
+                    <li>Lamine Yamal</li>
+                </ul>
+            </li>
+        </ol>
+
+        <hr>
+        
+        <h2>A Picture of the Camp Nou</h2>
+        <img src="assets/Images/caption.jpg" alt="A photo of the Camp Nou stadium">
+
+        <hr>
+
+        <h2 id="video-section">An Inspiring Video: Pedri's Amazing Skills</h2>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/1PAekx1C5T4?si=jTuq5WxdDWMhPpHY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+
+        <div class="centered-content">
+            <h2>Trophies Won by FC Barcelona</h2>
+            <div class='tableauPlaceholder' id='viz1753918628708' style='display: inline-block; position: relative;'><noscript><a href='#'><img alt='FC Barcelona - Very few clubs anywhere in the world have won so many titles' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;FC&#47;FCBarcelona&#47;FCBarcelona&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='FCBarcelona&#47;FCBarcelona' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;FC&#47;FCBarcelona&#47;FCBarcelona&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>Copyright © Braydon Horne 2024</p>
+        <a href="#top">Back to Top</a>
+    </div>
+
+    <script type='text/javascript'>
+        var divElement = document.getElementById('viz1753918628708');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        if (divElement.offsetWidth > 800) {
+            vizElement.style.width = '1000px';
+            vizElement.style.height = '720px';
+        } else if (divElement.offsetWidth > 500) {
+            vizElement.style.width = '800px';
+            vizElement.style.height = '600px';
+        } else {
+            vizElement.style.width = '100%';
+            vizElement.style.height = '500px';
+        }
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+
+</body>
+</html>

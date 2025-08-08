@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barça Trivia Challenge</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        :root {
+            --barca-blue: #001E3E;
+            --barca-garnet: #A50044;
+            --barca-gold: #FFD700;
+            --text-light: #FFFFFF;
+            --text-dark: #212529;
+            --correct-green: #28a745;
+            --incorrect-red: #dc3545;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--barca-blue);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #game-container {
+            background-color: var(--text-light);
+            color: var(--text-dark);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        #header {
+            margin-bottom: 20px;
+        }
+
+        #score {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--barca-garnet);
+        }
+
+        h1 {
+            color: var(--barca-blue);
+            font-weight: 700;
+            margin-top: 0;
+        }
+
+        #question-container {
+            margin: 30px 0;
+            min-height: 80px;
+        }
+
+        #question-text {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        #answer-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1em;
+            font-family: 'Poppins', sans-serif;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        #answer-input:focus {
+            outline: none;
+            border-color: var(--barca-gold);
+        }
+
+        .btn {
+            font-family: 'Poppins', sans-serif;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        #submit-btn {
+            background-color: var(--barca-garnet);
+            color: var(--text-light);
+        }
+
+        #submit-btn:hover {
+            background-color: #7c0032;
+        }
+        
+        #next-btn, #play-again-btn {
+            background-color: var(--barca-gold);
+            color: var(--text-dark);
+        }
+
+        #next-btn:hover, #play-again-btn:hover {
+            background-color: #e4b300;
+        }
+
+        #feedback {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+            min-height: 30px;
+        }
+
+        .correct-feedback {
+            color: var(--correct-green);
+        }
+
+        .incorrect-feedback {
+            color: var(--incorrect-red);
+        }
+        
+        /* A class to hide buttons initially */
+        .hidden {
+            display: none;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--barca-blue);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="header">
+            <p id="score">Score: 0</p>
+            <h1>Barça Trivia Challenge</h1>
+        </div>
+        
+        <div id="question-container">
+            <p id="question-text">Loading question...</p>
+        </div>
+
+        <div id="answer-container">
+            <input type="text" id="answer-input" placeholder="Type your answer here...">
+            <button class="btn" id="submit-btn">Submit Answer</button>
+        </div>
+
+        <button class="btn hidden" id="next-btn">Next Question</button>
+        <button class="btn hidden" id="play-again-btn">Play Again</button>
+
+        <div id="feedback"></div>
+
+        <a href="soccer.html" class="nav-link">Back to Soccer Page</a>
+    </div>
+
+    <script>
+        const triviaData = [
+            {
+                question: "What is the name of FC Barcelona's famous home stadium?",
+                answer: "Camp Nou"
+            },
+            {
+                question: "Who is the current head coach? (First or Last name)",
+                answer: "Hansi Flick"
+            },
+            {
+                question: "Which young midfielder won the 'Golden Boy' award in 2021?",
+                answer: "Pedri"
+            },
+            {
+                question: "What is the name of Barcelona's world-renowned youth academy?",
+                answer: "La Masia"
+            },
+            {
+                question: "Which Polish striker is a main goalscorer for the team?",
+                answer: "Lewandowski"
+            }
+        ];
+
+        // Element Selectors
+        const scoreEl = document.getElementById('score');
+        const questionTextEl = document.getElementById('question-text');
+        const answerInputEl = document.getElementById('answer-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackEl = document.getElementById('feedback');
+        const questionContainer = document.getElementById('question-container');
+        const answerContainer = document.getElementById('answer-container');
+        const playAgainBtn = document.getElementById('play-again-btn');
+
+        // Game State
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            feedbackEl.innerHTML = '';
+            answerInputEl.value = '';
+            const currentQuestion = triviaData[currentQuestionIndex];
+            questionTextEl.textContent = currentQuestion.question;
+            
+            // Show question and answer fields, hide next/play again buttons
+            questionContainer.classList.remove('hidden');
+            answerContainer.classList.remove('hidden');
+            submitBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            playAgainBtn.classList.add('hidden');
+        }
+
+        function checkAnswer() {
+            const userAnswer = answerInputEl.value.trim().toLowerCase();
+            const correctAnswer = triviaData[currentQuestionIndex].answer.toLowerCase();
+            
+            // Allow for partial correct answers (e.g., 'flick' for 'hansi flick')
+            if (correctAnswer.includes(userAnswer) && userAnswer.length > 2) {
+                score++;
+                feedbackEl.textContent = "Correct! Visca el Barça!";
+                feedbackEl.className = 'correct-feedback';
+            } else {
+                feedbackEl.textContent = `Not quite! The correct answer was: ${triviaData[currentQuestionIndex].answer}`;
+                feedbackEl.className = 'incorrect-feedback';
+            }
+            scoreEl.textContent = `Score: ${score}`;
+            showNextButton();
+        }
+
+        function showNextButton() {
+            submitBtn.classList.add('hidden');
+            // If there are more questions, show 'Next', otherwise check for end game
+            if (currentQuestionIndex < triviaData.length - 1) {
+                nextBtn.classList.remove('hidden');
+            } else {
+                endGame();
+            }
+        }
+        
+        function nextQuestion() {
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+
+        function endGame() {
+            questionTextEl.textContent = `Game Over! You scored ${score} out of ${triviaData.length}!`;
+            answerContainer.classList.add('hidden');
+            playAgainBtn.classList.remove('hidden');
+        }
+
+        function resetGame() {
+            score = 0;
+            currentQuestionIndex = 0;
+            scoreEl.textContent = `Score: 0`;
+            displayQuestion();
+        }
+
+        // Event Listeners
+        submitBtn.addEventListener('click', checkAnswer);
+        nextBtn.addEventListener('click', nextQuestion);
+        playAgainBtn.addEventListener('click', resetGame);
+        
+        // Allow pressing Enter to submit
+        answerInputEl.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                // Check if the submit button is visible before submitting
+                if (!submitBtn.classList.contains('hidden')) {
+                    checkAnswer();
+                }
+            }
+        });
+
+        // Start the game on page load
+        displayQuestion();
+    </script>
+
+</body>
+</html>
